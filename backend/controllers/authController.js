@@ -13,7 +13,7 @@ const sendingMail = require("../utils/sendEmail");
  * @route /api/auth/register
  * @method POST
  * @access public
-	----------------------------------------------*/
+ ----------------------------------------------*/
 
 module.exports.registerUserCtrl = asyncHandler(async (req, res) => {
   const { error } = validateRegisterUser(req.body);
