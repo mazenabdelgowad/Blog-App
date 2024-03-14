@@ -27,16 +27,27 @@ const Posts = () => {
   return (
     <section className="posts">
       <div className="home-latest-posts">
+        {posts.length === 0 && (
+          <h2
+            className="text-danger mt-3 m-auto"
+            style={{ width: "fit-content" }}
+          >
+            {" "}
+            No posts yet!
+          </h2>
+        )}
         <div className="container">
           <PostList posts={posts} />
-          <Sidepar />
+          {posts.length > 0 && <Sidepar />}
         </div>
       </div>
-      <Pagination
-        pages={pages}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      {posts.length > 0 && (
+        <Pagination
+          pages={pages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
     </section>
   );
 };

@@ -1,6 +1,4 @@
 .home {
-  margin-top: 56px;
-  margin-bottom: 56px;
   & .home-hero-header {
     position: relative;
     display: flex;

@@ -1,6 +1,4 @@
 .posts {
-  margin-top: 90px;
-  margin-bottom: 56px;
   & .home-latest-posts {
     & .container {
       display: flex;
@@ -11,5 +9,4 @@
       }
     }
   }
-
 }

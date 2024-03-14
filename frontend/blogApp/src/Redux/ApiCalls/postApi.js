@@ -28,7 +28,7 @@ export function getPosts(page) {
       const { data } = await request.get(`/api/posts?page=${page}`);
       dispatch(postActions.setPosts(data.data.posts));
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
     }
   };
 }
@@ -42,7 +42,7 @@ export function getPostsCount() {
       });
       dispatch(postActions.setPostsCount(data?.data?.count));
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
     }
   };
 }
@@ -53,7 +53,7 @@ export function getPostsByCategory(category) {
       const { data } = await request.get(`/api/posts?category=${category}`);
       dispatch(postActions.setPostsCategory(data.data.posts));
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
     }
   };
 }
@@ -64,7 +64,7 @@ export function getSinglePost(postId) {
       const { data } = await request.get(`/api/posts/${postId}`);
       dispatch(postActions.setSinglePost(data.data.post));
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
     }
   };
 }

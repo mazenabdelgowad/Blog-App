@@ -26,15 +26,26 @@ const Home = () => {
       <h1 className="text-center my-5">Latest Posts</h1>
 
       <div className="home-latest-posts">
+        {posts.length === 0 && (
+          <h2
+            className="text-danger mt-3 m-auto"
+            style={{ width: "fit-content" }}
+          >
+            {" "}
+            No posts yet!
+          </h2>
+        )}
         <div className="container">
           <PostList posts={posts} />
-          <Sidepar />
+          {posts.length > 0 && <Sidepar />}
         </div>
       </div>
 
-      <Link className="home-link btn btn-success" to="/posts">
-        See All Posts
-      </Link>
+      {posts.length > 0 && (
+        <Link className="home-link btn btn-success" to="/posts">
+          See All Posts
+        </Link>
+      )}
     </section>
   );
 };

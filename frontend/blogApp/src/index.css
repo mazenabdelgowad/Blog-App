@@ -37,8 +37,8 @@ textarea:focus {
 }
 
 section {
-  min-height: calc(100vh - 124px);
-  margin-top: 60px;
+  min-height: calc(100vh - 120px);
+  margin-top: 56px;
 }
 
 /* Some Global Classes For icons */
