@@ -1,7 +1,8 @@
 import { Link, NavLink } from "react-router-dom";
-import "./Header.css";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../Redux/Slice/authSlice";
+import { useEffect } from "react";
+import "./Header.css";
 
 const Header = () => {
   const { user } = useSelector((state) => state.auth);
@@ -10,6 +11,29 @@ const Header = () => {
   const handleLogOut = () => {
     dispatch(authActions.logout());
   };
+
+  useEffect(() => {
+    const navItems = document.querySelectorAll(".nav-item a");
+    navItems.forEach((navItem) => {
+      navItem.addEventListener("click", () => {
+        document.querySelector(".navbar-toggler").classList.remove("collapsed");
+        document.querySelector(".navbar-collapse").classList.remove("show");
+      });
+    });
+
+    const dropdownItems = document.querySelectorAll(".dropdown-item");
+    dropdownItems.forEach((dropdownItem) => {
+      dropdownItem.addEventListener("click", () => {
+        document.querySelector(".navbar-toggler").classList.remove("collapsed");
+        document.querySelector(".navbar-collapse").classList.remove("show");
+      });
+    });
+
+    document.querySelector(".navbar-brand")?.addEventListener("click", () => {
+      document.querySelector(".navbar-toggler").classList.remove("collapsed");
+      document.querySelector(".navbar-collapse").classList.remove("show");
+    });
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg">

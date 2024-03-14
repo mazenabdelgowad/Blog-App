@@ -35,32 +35,34 @@ const CategoriesTable = () => {
         <AdminSidebar />
         <div className="container">
           <h2 className="categories-table-title text-capitalize">Categories</h2>
-          <table className="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th>Count</th>
-                <th>Category</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {categories?.map((category, index) => (
-                <tr key={category?._id}>
-                  <td>{++index}</td>
-                  <td>{category?.title}</td>
-                  <td className="d-flex justify-content-center align-items-center">
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => handleDelete(category)}
-                    >
-                      Delete
-                    </button>
-                  </td>
+          <div className="table-container">
+            <table className="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Count</th>
+                  <th>Category</th>
+                  <th>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody>
+                {categories?.map((category, index) => (
+                  <tr key={category?._id}>
+                    <td>{++index}</td>
+                    <td>{category?.title}</td>
+                    <td className="admin-dashboard-buttons-container">
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleDelete(category)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
     </>

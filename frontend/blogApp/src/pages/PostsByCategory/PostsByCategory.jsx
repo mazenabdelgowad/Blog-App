@@ -25,8 +25,9 @@ const PostsByCategory = () => {
           postsByCategory.map((post) => <PostItem post={post} key={post._id} />)
         ) : (
           <h1 className="text-center">
-            There is no posts with{" "}
-            <span className="text-danger">{category}</span> title yet!
+            There Is No Posts With{" "}
+            <span className="text-danger text-capitalize">{category}</span>{" "}
+            Category Yet!
           </h1>
         )}
       </div>

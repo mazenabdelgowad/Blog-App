@@ -1,5 +1,6 @@
 .post {
-  width: 100%;
+  width: 500px;
+  margin: auto;
   & img {
     border-radius: 5px;
     object-fit: contain;
@@ -53,12 +54,13 @@
   }
   & .post-item-link {
     display: block;
-    width: 100%;
+    width: fit-content;
     background-color: var(--blue-color);
     color: var(--white-color);
     font-size: 21px;
-    padding: 5px;
+    padding: 5px 10px;
     text-align: center;
     border-radius: 5px;
+    margin: auto;
   }
 }

@@ -1,24 +1,27 @@
 .admin-dashboard {
   display: flex;
+  flex-wrap: wrap;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 767px) {
   .admin-dashboard {
-    display: block;
+    flex-direction: column-reverse;
   }
 }
 
 /* Start admin-sidebar */
+.container.admin-sidebar-container {
+  flex: 2 !important;
+}
 .admin-sidebar {
-  flex: 2;
   border-right: 1px solid var(--gray-color);
   padding: 20px;
+  height: 100%;
 }
 
 @media (max-width: 992px) {
   .admin-sidebar {
     border-right: none;
-    border-bottom: 1px solid var(--gray-color);
     padding: 10px;
   }
 }
@@ -27,8 +30,14 @@
   font-size: 24px;
   font-weight: bold;
   color: var(--primary-color);
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   display: block;
+}
+
+@media (max-width: 992px) {
+  .admin-sidebar-title {
+    margin-bottom: 5px;
+  }
 }
 
 .admin-sidebar-title i {
@@ -52,6 +61,13 @@
 .admin-sidebar-link i {
   margin-right: 5px;
   font-size: 24px;
+}
+
+@media (max-width: 1200px) {
+  .admin-sidebar-title,
+  .admin-sidebar-link {
+    font-size: 15px;
+  }
 }
 
 /* End admin-sidebar */
@@ -146,21 +162,29 @@
 .comments-table {
   display: flex;
 }
-/* 
-.users-table table,
-.posts-table table,
-.categories-table table,
-.comments-table table {
+
+.users-table .table-container,
+.posts-table .table-container,
+.categories-table .table-container,
+.comments-table .table-container {
   max-width: 100%;
   overflow-x: auto;
-} */
+}
 
 @media (max-width: 991px) {
   .users-table,
   .posts-table,
   .categories-table,
   .comments-table {
-    display: block;
+    flex-direction: column-reverse;
+  }
+
+  .users-table .table-container,
+  .posts-table .table-container,
+  .categories-table .table-container,
+  .comments-table .table-container {
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--dark-color);
   }
 }
 
@@ -169,6 +193,15 @@
 .categories-table .container,
 .comments-table .container {
   flex: 10;
+}
+
+@media (max-width: 992px) {
+  .users-table .container,
+  .posts-table .container,
+  .categories-table .container,
+  .comments-table .container {
+    flex: 0;
+  }
 }
 
 .users-table-title,
@@ -180,4 +213,22 @@
   padding-bottom: 5px;
   max-width: fit-content;
 }
+.admin-dashboard-buttons-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard-buttons-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard-link {
+    font-size: 9px;
+  }
+}
+
 /* End Users Table */

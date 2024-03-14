@@ -59,41 +59,43 @@ const UsersTable = () => {
           <AdminSidebar />
           <div className="container">
             <h2 className="users-table-title text-capitalize">users</h2>
-            <table className="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th>Count</th>
-                  <th>User</th>
-                  <th>Email</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {profiles?.map((profile, index) => (
-                  <tr key={profile?._id}>
-                    <td>{index + 1}</td>
-                    <td>{profile?.username}</td>
-                    <td>{profile?.email}</td>
-                    <td className="d-flex justify-content-around">
-                      <Link
-                        className="btn btn-success"
-                        to={`/profile/${profile?._id}`}
-                      >
-                        View Proflie
-                      </Link>
-                      <button
-                        disabled={loading}
-                        className="btn btn-danger"
-                        onClick={() => handleDelete(profile?._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
+            <div className="table-container">
+              <table className="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Count</th>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+
+                <tbody>
+                  {profiles?.map((profile, index) => (
+                    <tr key={profile?._id}>
+                      <td>{index + 1}</td>
+                      <td>{profile?.username}</td>
+                      <td>{profile?.email}</td>
+                      <td className="admin-dashboard-buttons-container">
+                        <Link
+                          className="btn btn-success"
+                          to={`/profile/${profile?._id}`}
+                        >
+                          View Proflie
+                        </Link>
+                        <button
+                          disabled={loading}
+                          className="btn btn-danger"
+                          onClick={() => handleDelete(profile?._id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
       )}

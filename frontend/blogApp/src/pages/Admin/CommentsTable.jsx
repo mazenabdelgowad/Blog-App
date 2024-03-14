@@ -35,34 +35,36 @@ const CommentsTable = () => {
       <AdminSidebar />
       <div className="container">
         <h2 className="comments-table-title text-capitalize">Comments</h2>
-        <table className="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>Count</th>
-              <th>User</th>
-              <th>Comment</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {comments?.map((comment, index) => (
-              <tr key={comment?._id}>
-                <td>{index + 1}</td>
-                <td>{comment?.username}</td>
-                <td>{comment?.text}</td>
-                <td className="d-flex justify-content-center align-items-center">
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handleDelete(comment?._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+        <div className="table-container">
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Count</th>
+                <th>User</th>
+                <th>Comment</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {comments?.map((comment, index) => (
+                <tr key={comment?._id}>
+                  <td>{index + 1}</td>
+                  <td>{comment?.username}</td>
+                  <td>{comment?.text}</td>
+                  <td className="admin-dashboard-buttons-container">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(comment?._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   );
