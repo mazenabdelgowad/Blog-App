@@ -72,7 +72,7 @@ module.exports.registerUserCtrl = asyncHandler(async (req, res) => {
  * @route /api/auth/login
  * @method POST
  * @access public
-	----------------------------------------------*/
+----------------------------------------------*/
 
 module.exports.loginUserCtrl = asyncHandler(async (req, res) => {
   const { error } = validateLoginUser(req.body);
@@ -140,7 +140,7 @@ module.exports.loginUserCtrl = asyncHandler(async (req, res) => {
  * @route /api/auth/:userId/verify/:token
  * @method GET
  * @access public
-	----------------------------------------------*/
+----------------------------------------------*/
 module.exports.verifyUserAccountCtrl = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.userId);
   if (!user) {
