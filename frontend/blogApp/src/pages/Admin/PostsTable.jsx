@@ -1,15 +1,19 @@
 import AdminSidebar from "./AdminSidebar";
 import swal from "sweetalert";
 import { Link } from "react-router-dom";
-import { posts } from "../../dummyData";
 import { useEffect } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { deletePost, getPosts } from "../../Redux/ApiCalls/postApi";
 const PostsTable = () => {
+  const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.posts);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    dispatch(getPosts());
   }, []);
 
-  const handleDelete = () => {
+  const handleDelete = (postId) => {
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this post!",
@@ -18,9 +22,7 @@ const PostsTable = () => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        swal("Post has been deleted successfully!", {
-          icon: "success",
-        });
+        dispatch(deletePost(postId));
       }
     });
   };
@@ -41,18 +43,21 @@ const PostsTable = () => {
           </thead>
 
           <tbody>
-            {posts.map((post) => (
+            {posts.map((post, index) => (
               <tr key={post._id}>
-                <td>{post._id}</td>
+                <td>{index + 1}</td>
                 <td className="text-capitalize">{post.user.username}</td>
                 <td>{post.title}</td>
                 <td className="d-flex justify-content-around">
-                  <Link className="btn btn-success" to="/posts/details/1">
+                  <Link
+                    className="btn btn-success"
+                    to={`/posts/details/${post._id}`}
+                  >
                     View Post
                   </Link>
                   <button
                     className="btn btn-danger"
-                    onClick={() => handleDelete()}
+                    onClick={() => handleDelete(post?._id)}
                   >
                     Delete
                   </button>

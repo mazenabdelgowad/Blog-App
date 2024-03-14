@@ -1,24 +1,28 @@
 import "./UpdateCommentModel.css";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-const UpdateCommentModel = ({ setShowUpdateCommentPage }) => {
-  const [title, setTitle] = useState("This is amazing post");
-  const titleRef = useRef(null);
+import { updateComment } from "../../Redux/ApiCalls/commentApi";
+import { useDispatch } from "react-redux";
+const UpdateCommentModel = ({ setShowUpdateCommentPage, comment }) => {
+  const [text, setText] = useState(comment?.text);
+  const textRef = useRef(null);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    titleRef.current.focus();
+    textRef.current.focus();
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (title.trim() === "") {
-      titleRef?.current?.focus();
+    if (text.trim() === "") {
+      textRef?.current?.focus();
       return toast.error("Title is required");
     }
 
-    console.log({ title });
+    dispatch(updateComment({ text }, comment?._id));
+
     setShowUpdateCommentPage(false);
-    toast.success("Comment updated successfully");
   };
 
   return (
@@ -41,14 +45,14 @@ const UpdateCommentModel = ({ setShowUpdateCommentPage }) => {
             type="text"
             name="update-comment-title"
             id="update-comment-title"
-            defaultValue={title}
-            onChange={(e) => setTitle(e.target.value)}
+            defaultValue={text}
+            onChange={(e) => setText(e.target.value)}
             placeholder="Title"
             className="update-comment-title-input w-100"
-            ref={titleRef}
+            ref={textRef}
           />
 
-          <button className="btn btn-primary">Update</button>
+          <button className="btn btn-primary">Update Comment</button>
         </form>
       </div>
     </div>

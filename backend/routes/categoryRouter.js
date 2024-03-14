@@ -11,7 +11,7 @@ const validateObjectId = require("../middleware/validateObjectId");
 router
   .route("/")
   .post(verifyToken, allowedToAdmin, createCategoryCtrl)
-  .get(verifyToken, getAllCategoriesCtrl);
+  .get(getAllCategoriesCtrl);
 
 router
   .route("/:categoryId")

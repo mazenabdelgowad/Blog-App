@@ -12,18 +12,22 @@ module.exports.createCategoryCtrl = asyncHandler(async (req, res) => {
   if (error)
     return res
       .status(404)
-      .json({ status: "Error", messsage: error.details[0].message });
+      .json({ status: "Error", message: error.details[0].message });
 
   const oldCategory = await Category.findOne({ title: req.body.title });
 
   if (oldCategory)
     return res
       .status(400)
-      .json({ status: "Error", messsage: "Category already exists" });
+      .json({ status: "Error", message: "Category already exists" });
 
   const category = await Category.create({ ...req.body, user: req.user.id });
 
-  return res.status(201).json({ status: "Success", data: { category } });
+  return res.status(201).json({
+    status: "Success",
+    data: { category },
+    message: "Category created successfully",
+  });
 });
 
 /** ----------------------------------------
@@ -46,7 +50,6 @@ module.exports.getAllCategoriesCtrl = asyncHandler(async (req, res) => {
 ----------------------------------------*/
 module.exports.deleteCategoryCtrl = asyncHandler(async (req, res) => {
   const category = await Category.findById(req.params.categoryId);
-  console.log(category);
   if (!category)
     return res
       .status(404)
@@ -54,7 +57,9 @@ module.exports.deleteCategoryCtrl = asyncHandler(async (req, res) => {
 
   await Category.findByIdAndDelete(req.params.categoryId);
 
-  return res
-    .status(200)
-    .json({ status: "Success", message: "Category deleted successfully" });
+  return res.status(200).json({
+    status: "Success",
+    message: "Category deleted successfully",
+    categoryId: req.params.categoryId,
+  });
 });

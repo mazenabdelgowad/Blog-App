@@ -151,13 +151,11 @@ module.exports.deletePostsCtrl = asyncHandler(async (req, res) => {
     await Post.findByIdAndDelete(req.params.postId);
 
     // 4 - send response to client
-    return res
-      .status(200)
-      .json({
-        status: "Success",
-        message: "post deleted successfully",
-        data: { postId: req.params.postId },
-      });
+    return res.status(200).json({
+      status: "Success",
+      message: "post deleted successfully",
+      data: { postId: req.params.postId },
+    });
   } else
     return res
       .status(403)
@@ -193,7 +191,10 @@ module.exports.updatePostCtrl = asyncHandler(async (req, res) => {
       },
     },
     { new: true }
-  ).populate("user", { password: false });
+  )
+    .lean()
+    .populate("user", { password: false })
+    .populate("comments");
 
   // validate user
   if (req.user.id !== post.user.toString())

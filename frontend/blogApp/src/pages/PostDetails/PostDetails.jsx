@@ -12,13 +12,12 @@ import {
 import AddComment from "../../components/Comment/AddComment";
 import CommentList from "../../components/Comment/CommentList";
 import UpdatePostModel from "./UpdatePostModel";
-import UpdateCommentModel from "../../components/Comment/UpdateCommentModel";
 import "./postDetails.css";
 
 const PostDetails = () => {
   const [file, setFile] = useState(null);
   const [showUpdatePostPage, setShowUpdatePostPage] = useState(false);
-  const [showUpdateCommentPage, setShowUpdateCommentPage] = useState(false);
+
   const navigate = useNavigate();
   const { postId } = useParams();
   const dispatch = useDispatch();
@@ -62,11 +61,6 @@ const PostDetails = () => {
         <UpdatePostModel
           setShowUpdatePostPage={setShowUpdatePostPage}
           post={post}
-        />
-      )}
-      {showUpdateCommentPage && (
-        <UpdateCommentModel
-          setShowUpdateCommentPage={setShowUpdateCommentPage}
         />
       )}
 
@@ -144,20 +138,21 @@ const PostDetails = () => {
           d-flex justify-content-between align-items-center gap-1
         "
         >
-          {user && (
-            <div className="post-details-icon-wrapper-likes">
-              <i
-                onClick={() => dispatch(toggleLikes(post?._id))}
-                className={
-                  post?.likes?.includes(user?.id)
-                    ? "bi bi-hand-thumbs-up-fill"
-                    : "bi bi-hand-thumbs-up"
-                }
-              ></i>
-              <small className="mx-1">{post?.likes?.length}</small>
-              <span>{post?.likes?.length === 1 ? "Like" : "Likes"}</span>
-            </div>
-          )}
+          <div className="post-details-icon-wrapper-likes">
+            <i
+              onClick={() => {
+                if (!user) return toast.error("You must login first");
+                dispatch(toggleLikes(post?._id));
+              }}
+              className={
+                post?.likes?.includes(user?.id)
+                  ? "bi bi-hand-thumbs-up-fill"
+                  : "bi bi-hand-thumbs-up"
+              }
+            ></i>
+            <small className="mx-1">{post?.likes?.length}</small>
+            <span>{post?.likes?.length === 1 ? "Like" : "Likes"}</span>
+          </div>
 
           {user && user?.id === post?.user?._id && (
             <div className="post-details-icon-wrapper-update-post">
@@ -174,11 +169,14 @@ const PostDetails = () => {
         </div>
 
         {/*  COMMENT  SECTION  */}
-        <AddComment />
-        <CommentList
-          setShowUpdateCommentPage={setShowUpdateCommentPage}
-          comments={post?.comments}
-        />
+        {user ? (
+          <AddComment postId={post?._id} />
+        ) : (
+          <p className="fw-bold m-0 mt-2 text-danger">
+            To write a commment, log in first!
+          </p>
+        )}
+        <CommentList comments={post?.comments} />
       </div>
     </section>
   );

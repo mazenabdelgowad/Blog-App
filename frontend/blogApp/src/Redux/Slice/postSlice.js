@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { startTransition } from "react";
 
 const postSlice = createSlice({
   name: "post",
@@ -51,6 +52,22 @@ const postSlice = createSlice({
     },
     deletePost(state, action) {
       state.posts = state.posts.filter((post) => post._id !== action.payload);
+    },
+    addCommentToPost(state, action) {
+      state.post.comments.push(action.payload);
+    },
+    updateComment(state, action) {
+      state.post.comments = state.post.comments.map((comment) => {
+        return comment._id === action.payload._id ? action.payload : comment;
+      });
+    },
+    deleteComment(state, action) {
+      const comment = state.post.comments.find((comment) => {
+        comment._id === action.payload;
+      });
+      const commentIndex = state.post.comments.indexOf(comment);
+
+      state.post.comments.splice(commentIndex, 1);
     },
   },
 });

@@ -36,8 +36,11 @@ export function getPosts(page) {
 export function getPostsCount() {
   return async (dispatch) => {
     try {
-      const { data } = await request.get(`/api/posts/count`);
-      dispatch(postActions.setPostsCount(data.data.count));
+      const token = JSON.parse(localStorage.getItem("user")).token;
+      const { data } = await request.get(`/api/posts/count`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(postActions.setPostsCount(data?.data?.count));
     } catch (error) {
       toast.error(error.response.data.message);
     }

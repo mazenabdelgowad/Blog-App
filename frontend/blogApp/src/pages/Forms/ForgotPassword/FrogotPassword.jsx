@@ -1,7 +1,11 @@
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { forgotPassword } from "../../../Redux/ApiCalls/passwordApi";
 import "./ForgotPassword.css";
 const ForgotPassword = () => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const emailRef = useRef(null);
 
@@ -11,6 +15,8 @@ const ForgotPassword = () => {
       emailRef.current.focus();
       return toast.error("Email is required");
     }
+
+    dispatch(forgotPassword(email));
   };
 
   return (

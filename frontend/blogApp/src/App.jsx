@@ -15,11 +15,13 @@ import {
   CommentsTable,
   CategoriesTable,
   ForgotPassword,
+  ResetPassword,
 } from "./pages";
 import Footer from "./components/Footer/Footer";
 import { ToastContainer } from "react-toastify";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import { useSelector } from "react-redux";
+import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
 function App() {
   const user = useSelector((state) => state.auth.user);
   return (
@@ -84,10 +86,23 @@ function App() {
           path="/log-in"
           element={!user ? <Login /> : <Navigate to="/" />}
         />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        <Route
+          path="/forgot-password"
+          element={!user ? <ForgotPassword /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/reset-password/:userId/:token"
+          element={!user ? <ResetPassword /> : <Navigate to="/" />}
+        />
+
         <Route
           path="/register"
           element={!user ? <Register /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/users/:userId/verify/:token"
+          element={!user ? <VerifyEmail /> : <Navigate to="/" />}
         />
         <Route
           path="/profile/:userId"

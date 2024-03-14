@@ -21,7 +21,7 @@ const UpdatePostModel = ({ post, setShowUpdatePostPage }) => {
   const descriptionRef = useRef(null);
   useEffect(() => {
     titleRef.current.focus();
-    // dispatch(getCategories());
+    dispatch(getCategories());
   }, []);
 
   const handleSubmit = (e) => {

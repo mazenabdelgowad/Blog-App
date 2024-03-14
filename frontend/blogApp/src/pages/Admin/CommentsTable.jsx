@@ -1,23 +1,31 @@
 import AdminSidebar from "./AdminSidebar";
 import swal from "sweetalert";
-import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteComment, getAllComments } from "../../Redux/ApiCalls/commentApi";
 const CommentsTable = () => {
+  const dispatch = useDispatch();
+  const { comments } = useSelector((state) => state.comment);
+
+  //console.log(comments);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    dispatch(getAllComments());
   }, []);
-  const handleDelete = () => {
+
+  // useEffect(() => {}, [isCommentDeleted]);
+
+  const handleDelete = (commentId) => {
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this comment!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        swal("Comment has been deleted successfully!", {
-          icon: "success",
-        });
+    }).then((isOk) => {
+      if (isOk) {
+        dispatch(deleteComment(commentId));
       }
     });
   };
@@ -38,19 +46,21 @@ const CommentsTable = () => {
           </thead>
 
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mazen</td>
-              <td>This is amazing post</td>
-              <td className="d-flex justify-content-center align-items-center">
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete()}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
+            {comments?.map((comment, index) => (
+              <tr key={comment?._id}>
+                <td>{index + 1}</td>
+                <td>{comment?.username}</td>
+                <td>{comment?.text}</td>
+                <td className="d-flex justify-content-center align-items-center">
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(comment?._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

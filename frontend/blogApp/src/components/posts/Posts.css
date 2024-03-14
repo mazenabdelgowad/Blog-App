@@ -21,7 +21,7 @@
       padding-bottom: 5px;
     }
     & .post-item-author {
-      strong {
+      & strong {
         color: var(--green-sea-color);
       }
       & a {

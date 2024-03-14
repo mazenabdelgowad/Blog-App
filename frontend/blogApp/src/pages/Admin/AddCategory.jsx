@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-
+import { useDispatch } from "react-redux";
+import { createCategory } from "../../Redux/ApiCalls/categoriesApi";
 const AddCategory = () => {
   const [category, setCategory] = useState("");
   const categoryRef = useRef(null);
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,7 +15,7 @@ const AddCategory = () => {
       return toast.error("Please, add a category");
     }
 
-    console.log("category: ", category);
+    dispatch(createCategory({ title: category }));
     setCategory("");
   };
 

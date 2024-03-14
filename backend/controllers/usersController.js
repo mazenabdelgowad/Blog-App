@@ -76,7 +76,7 @@ module.exports.updateUserProfileCtrl = asyncHandler(async (req, res) => {
       },
     },
     { new: true }
-  );
+  ).populate("posts");
 
   if (userToUpdate)
     return res.status(200).json({
@@ -169,7 +169,10 @@ module.exports.deleteUserProfileCtrl = asyncHandler(async (req, res) => {
   if (!user)
     return res.status(404).json({ status: "Error", message: "User not found" });
 
-  // Get all posts from db
+  // Get all posts
+  const allPosts = await Post.find().populate("comments");
+
+  // Get all user's posts from db
   const posts = await Post?.find({ user: user._id });
 
   // Get public ids from posts
@@ -184,14 +187,36 @@ module.exports.deleteUserProfileCtrl = asyncHandler(async (req, res) => {
   // - Delete user's comments
   await Comment.deleteMany({ user: user._id });
 
-  // if user has upload images to cloudinary => delete them
+  // Delete user's likes
+  for (const post of allPosts) {
+    // Filter likes for the current post and remove the user's like
+    post.likes = post.likes.filter((like) => like.toString() !== user.id);
+
+    // Update the post in the database
+    await Post.updateOne({ _id: post._id }, { likes: post.likes });
+  }
+
+  // Delete user's comments
+  for (const post of allPosts) {
+    // Filter likes for the current post and remove the user's like
+    post.comments = post?.comments?.filter(
+      (comment) => comment.user !== user.id
+    );
+
+    // Update the post in the database
+    await Post.updateOne({ _id: post._id }, { comments: post.comments });
+  }
+
+  // if user has profile photo => delete it
   if (user.profilePhoto.publicId !== null)
     await cloudinaryRemoveImage(user.profilePhoto.publicId);
 
   // Delete user himself
-  await User.findByIdAndDelete(req.params.userId);
+  await User.findByIdAndDelete(req.params.userId, {
+    new: true,
+  });
 
   return res
     .status(200)
-    .json({ status: "Success", message: "user deleted successfully" });
+    .json({ status: "Success", message: "profile deleted successfully" });
 });

@@ -57,9 +57,6 @@ export function updateUserProfile(userId, newProfile) {
         }
       );
 
-      console.log(data?.data?.user);
-      console.log("posts: ", data?.data?.user.posts);
-
       dispatch(profileActions.updateProfile(data?.data?.user));
       dispatch(authActions.setUserName(data?.data?.user?.username));
 
@@ -68,6 +65,75 @@ export function updateUserProfile(userId, newProfile) {
       user.username = data?.data?.user?.username;
       localStorage.setItem("user", JSON.stringify(user));
       //
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
+}
+
+export function deleteUserProfile(userId) {
+  return async (dispatch) => {
+    try {
+      dispatch(profileActions.setLoading());
+      const token = JSON.parse(localStorage.getItem("user")).token;
+      const { data } = await request.delete(`/api/users/profile/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      toast.success(data?.message);
+      dispatch(profileActions.setIsProfileDeleted());
+      dispatch(authActions.logout());
+      setTimeout(() => dispatch(profileActions.clearIsProfileDeleted()), 2000);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      dispatch(profileActions.clearLoading());
+    }
+  };
+}
+
+export function deleteUserProfileFromAdminSide(userId) {
+  return async (dispatch) => {
+    try {
+      dispatch(profileActions.setLoading());
+      const token = JSON.parse(localStorage.getItem("user")).token;
+      const { data } = await request.delete(`/api/users/profile/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      toast.success(data?.message);
+      dispatch(profileActions.setIsProfileDeleted());
+      setTimeout(() => dispatch(profileActions.clearIsProfileDeleted()), 2000);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      dispatch(profileActions.clearLoading());
+    }
+  };
+}
+
+export function getAllUsers() {
+  return async (dispatch) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("user")).token;
+      const { data } = await request.get(`/api/users/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      dispatch(profileActions.setProfiles(data?.data?.users));
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
+}
+
+export function getUsersCount() {
+  return async (dispatch) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("user")).token;
+      const { data } = await request.get(`/api/users/count/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      dispatch(profileActions.setUsersCount(data?.data?.count));
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }

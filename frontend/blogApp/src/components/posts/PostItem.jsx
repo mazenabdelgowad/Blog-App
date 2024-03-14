@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-
-const PostItem = ({ post }) => {
+import "./Post.css";
+const PostItem = ({ post, username, userId }) => {
   return (
     <div className="post">
       <div className="post-image-wrapper mb-2 d-flex justify-content-center align-items-center">
@@ -16,10 +16,10 @@ const PostItem = ({ post }) => {
           <div className="post-item-author">
             <strong className="me-1">Author: </strong>
             <Link
-              to={`/profile/${post?.user?._id}`}
+              to={`/profile/${post?.user?._id ? post?.user?._id : userId}`}
               className="text-capitalize"
             >
-              {post?.user?.username}
+              {post?.user?.username ? post?.user?.username : username}
             </Link>
           </div>
 

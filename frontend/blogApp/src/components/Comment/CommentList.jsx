@@ -1,35 +1,51 @@
-import "./CommentList.css";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-const CommentList = ({ setShowUpdateCommentPage, comments }) => {
-  // handle delete comment
-  const handleDeleteComment = () => {
+import { useDispatch } from "react-redux";
+import { deleteComment } from "../../Redux/ApiCalls/commentApi";
+import UpdateCommentModel from "./UpdateCommentModel";
+import "./CommentList.css";
+const CommentList = ({ comments }) => {
+  const [showUpdateCommentPage, setShowUpdateCommentPage] = useState(false);
+  const [commentToUpdate, setCommentToUpdate] = useState(null);
+  const dispatch = useDispatch();
+  const handleDeleteComment = (commentId) => {
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this comment!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        swal("Comment has been deleted successfully", {
-          icon: "success",
-        });
+    }).then((isOk) => {
+      if (isOk) {
+        dispatch(deleteComment(commentId));
       }
     });
   };
 
   const user = JSON.parse(localStorage.getItem("user"));
 
+  const handleUpdateComment = (comment) => {
+    setCommentToUpdate(comment);
+    setShowUpdateCommentPage(true);
+  };
+
   return (
     <div className="comments-list">
+      {showUpdateCommentPage && (
+        <UpdateCommentModel
+          comment={commentToUpdate}
+          setShowUpdateCommentPage={setShowUpdateCommentPage}
+        />
+      )}
+
       <h4 className="comments-list-count">
         {comments?.length > 1
-          ? `${comments?.length} comments`
-          : `${comments?.length} comment`}
+          ? `${comments?.length || "No"} comments`
+          : `${comments?.length || "No"} comment`}
       </h4>
       {comments?.length > 0 ? (
         comments?.map((comment) => (
-          <div className="comments-list-item" key={comment}>
+          <div className="comments-list-item" key={comment?._id}>
             <div
               className="comments-list-item-user-info
 						d-flex justify-content-between align-items-end
@@ -45,16 +61,16 @@ const CommentList = ({ setShowUpdateCommentPage, comments }) => {
               </p>
             </div>
 
-            <p className="comments-list-item-text">This is amazing post</p>
+            <p className="comments-list-item-text">{comment?.text}</p>
 
             {user && user?.id === comment?.user && (
               <div className="comments-list-item-icon-wrapper">
                 <i
                   className="bi bi-pencil-square"
-                  onClick={() => setShowUpdateCommentPage(true)}
+                  onClick={() => handleUpdateComment(comment)}
                 ></i>
                 <i
-                  onClick={() => handleDeleteComment()}
+                  onClick={() => handleDeleteComment(comment?._id)}
                   className="bi bi-trash-fill"
                 ></i>
               </div>

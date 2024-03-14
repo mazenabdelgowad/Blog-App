@@ -13,7 +13,7 @@ const Pagination = ({ pages, currentPage, setCurrentPage }) => {
       >
         Prev
       </button>
-      {generatedPages.map((page) => (
+      {generatedPages?.map((page) => (
         <div
           onClick={() => setCurrentPage(page)}
           className={currentPage === page ? "page active" : "page"}
