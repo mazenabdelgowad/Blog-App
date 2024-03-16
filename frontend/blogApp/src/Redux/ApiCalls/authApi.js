@@ -28,7 +28,7 @@ export function registerUser(user) {
         dispatch(authActions.register(data?.message));
       else toast.error(data?.message.replaceAll('"', ""));
     } catch (error) {
-      console.log(error.message);
+      console.log(error?.message);
     }
   };
 }
@@ -36,10 +36,29 @@ export function registerUser(user) {
 export function verifyAccount(userId, token) {
   return async (dispatch) => {
     try {
-      await request.get(`/api/auth/${userId}/verify/${token}`);
-      dispatch(authActions.setIsEmailVerified());
+      const response = await fetch(
+        `${BASE_URL}/api/auth/${userId}/verify/${token}`
+      );
+      const data = await response.json();
+
+      if (data.status === "Success") {
+        dispatch(authActions.setIsEmailVerified());
+      } else {
+        toast.error(data?.message);
+      }
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log(error?.message);
     }
   };
 }
+
+// export function verifyAccount(userId, token) {
+//   return async (dispatch) => {
+//     try {
+//       await request.get(`/api/auth/${userId}/verify/${token}`);
+//       dispatch(authActions.setIsEmailVerified());
+//     } catch (error) {
+//       toast.error(error?.response?.data?.message);
+//     }
+//   };
+// }

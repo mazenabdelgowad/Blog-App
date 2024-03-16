@@ -9,6 +9,8 @@ const validateObjectId = require("../middleware/validateObjectId");
 router.post("/register", registerUserCtrl);
 router.post("/login", loginUserCtrl);
 
-router.get("/:userId/verify/:token", validateObjectId, verifyUserAccountCtrl);
+router
+  .route("/:userId/verify/:token")
+  .get(validateObjectId, verifyUserAccountCtrl);
 
 module.exports = router;

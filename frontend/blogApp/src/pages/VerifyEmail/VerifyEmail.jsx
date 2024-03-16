@@ -10,7 +10,7 @@ const VerifyEmail = () => {
 
   useEffect(() => {
     dispatch(verifyAccount(userId, token));
-  }, [userId, token]);
+  }, []);
 
   return (
     <>

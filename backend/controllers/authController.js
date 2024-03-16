@@ -143,15 +143,23 @@ module.exports.loginUserCtrl = asyncHandler(async (req, res) => {
 	----------------------------------------------*/
 module.exports.verifyUserAccountCtrl = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.userId);
-  if (!user)
-    return res.status(400).json({ status: "Fail", message: "Invalid Link" });
+  if (!user) {
+    return res
+      .status(400)
+      .json({ status: "Fail", message: "Invalid Link user not found" });
+  }
 
   const verificationToken = await VerificationToken.findOne({
-    userId: user._id,
-    token: req.params.token,
+    userId: req.params.userId,
   });
-  if (!verificationToken)
-    return res.status(400).json({ status: "Fail", message: "Invalid Link" });
+
+  console.log("verificationToken: ", verificationToken);
+
+  if (!verificationToken) {
+    return res
+      .status(400)
+      .json({ status: "Fail", message: "Invalid Link token not found" });
+  }
 
   user.isAccountVerified = true;
   await user.save();

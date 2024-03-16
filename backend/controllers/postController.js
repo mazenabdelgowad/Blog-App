@@ -247,7 +247,10 @@ module.exports.updatePostPhotoCtrl = asyncHandler(async (req, res) => {
       },
     },
     { new: true }
-  );
+  )
+    .lean()
+    .populate("user", { password: false })
+    .populate("comments");
 
   // delete image from images folder
   fs.unlinkSync(imagePath, (err) => {

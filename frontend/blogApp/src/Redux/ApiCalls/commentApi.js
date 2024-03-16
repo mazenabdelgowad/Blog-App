@@ -60,10 +60,9 @@ export function deleteComment(commentId) {
       const { data } = await request.delete(`/api/comments/${commentId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("commentId: ", commentId);
       toast.success(data?.message);
-      dispatch(commentActions.deleteComment(commentId));
       dispatch(postActions.deleteComment(commentId));
+      dispatch(commentActions.deleteComment(commentId));
       //
     } catch (error) {
       toast.error(error?.response?.error?.message);
