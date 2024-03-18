@@ -316,6 +316,4 @@ module.exports.toggleLikesCtrl = asyncHandler(async (req, res) => {
       likes: post.likes,
     },
   });
-
-  //
 });
