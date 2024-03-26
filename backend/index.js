@@ -28,7 +28,13 @@ mongoose
 
 app.use(express.json());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://blog-app-1whq.vercel.app",
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);
 
 // Prevent the server from XSS attacks
 app.use(xss());
